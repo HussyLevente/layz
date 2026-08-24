@@ -6,6 +6,11 @@
 
 /* ---------------- tokens ---------------- */
 :root {
+  /* Pin the UA's own rendering (scrollbars, form controls, autofill) to the
+     site's theme. Without this a visitor whose OS is in dark mode would get
+     dark scrollbars framing a light page. */
+  color-scheme: light;
+
   --fg-rgb: 23, 23, 23;
   --bg-rgb: 255, 255, 255;
 
@@ -50,6 +55,8 @@
 }
 
 [data-theme="dark"] {
+  color-scheme: dark;
+
   --fg-rgb: 237, 237, 237;
   --bg-rgb: 10, 10, 10;
 }

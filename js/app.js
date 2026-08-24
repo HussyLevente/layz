@@ -28,12 +28,17 @@
     if (btn) {
       btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
     }
+    /* keep the browser chrome in step with the page, not with the OS */
+    var meta = doc.querySelector('meta[name="theme-color"]');
+    if (meta) { meta.setAttribute('content', theme === 'dark' ? '#0a0a0a' : '#ffffff'); }
   }
 
   function initTheme() {
+    /* Light is the default for everyone. The OS preference is deliberately
+       ignored - only an explicit toggle, remembered in layz.theme, switches
+       the site to dark. */
     var saved = store(THEME_KEY);
-    var prefersDark = global.matchMedia && global.matchMedia('(prefers-color-scheme: dark)').matches;
-    applyTheme(saved || (prefersDark ? 'dark' : 'light'));
+    applyTheme(saved === 'dark' ? 'dark' : 'light');
 
     /* footer entry point back into the consent choice */
     doc.addEventListener('click', function (e) {

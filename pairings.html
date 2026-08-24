@@ -24,8 +24,7 @@
 <meta name="twitter:title" content="Font pairings - shuffle title and body combinations | Layz">
 <meta name="twitter:description" content="Generate Google Font pairings scored on category contrast, sub-genre and legibility. Lock a font you like, shuffle the other, edit the sample text and copy the CSS.">
 <meta name="twitter:image" content="https://layzfonts.com/og-image.png">
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff">
 <!-- SEO:END -->
 
 <!-- Google Fonts are attached by consent.js only once the visitor allows it -->
@@ -39,7 +38,9 @@
   (function () {
     try {
       var t = localStorage.getItem('layz.theme');
-      if (!t) { t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+      /* Light is the default regardless of the OS setting; only an explicit
+         toggle (stored in layz.theme) can switch it. */
+      if (t !== 'dark' && t !== 'light') { t = 'light'; }
       document.documentElement.setAttribute('data-theme', t);
     } catch (e) {}
   })();
