@@ -276,6 +276,41 @@
   margin-bottom: 10px;
 }
 
+/* ---------------- faq ---------------- */
+.faq { border-top: 1px solid var(--line); }
+.faq-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--gutter);
+  flex-wrap: wrap;
+  padding: clamp(18px, 3vh, 30px) var(--gutter);
+  border-bottom: 1px solid var(--line);
+  transition: background-color var(--dur-fast) var(--ease-io);
+}
+.faq-item:hover { background: rgba(var(--fg-rgb), .03); }
+.faq-item h3 {
+  flex: none;
+  width: calc(var(--unit) * 4 - var(--gutter));
+  min-width: 220px;
+  font-size: clamp(1rem, 1.7vw, 1.35rem);
+  font-weight: 400;
+  letter-spacing: -.02em;
+  line-height: 1.2;
+}
+.faq-item p {
+  flex: 1;
+  min-width: 260px;
+  font-size: var(--t-sm);
+  line-height: 1.6;
+  color: var(--fg-50);
+  max-width: 70ch;
+}
+
+@media (max-width: 760px) {
+  .faq-item h3 { width: 100%; min-width: 0; }
+  .faq-item p { min-width: 0; }
+}
+
 /* ---------------- support / ko-fi ---------------- */
 .kofi {
   display: flex;

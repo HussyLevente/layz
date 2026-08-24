@@ -1,0 +1,114 @@
+/* ============================================================
+   Layz - legal documents
+   ============================================================ */
+
+.doc {
+  padding: var(--gutter);
+  padding-top: calc(var(--header-h) + 7vh);
+  padding-bottom: clamp(50px, 10vh, 120px);
+}
+
+.doc-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--gutter);
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--fg);
+}
+
+.doc h1 {
+  font-size: clamp(2rem, 6.4vw, 6rem);
+  font-weight: 400;
+  line-height: .92;
+  letter-spacing: -.045em;
+  text-transform: uppercase;
+  margin: clamp(20px, 4vh, 44px) 0 0;
+}
+
+.doc-updated { margin-top: 16px; }
+
+.doc-body {
+  margin-top: clamp(28px, 6vh, 64px);
+  max-width: calc(var(--unit) * 8 - var(--gutter));
+}
+
+.doc-sec {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--gutter);
+  padding-block: clamp(18px, 3.4vh, 34px);
+  border-top: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+.doc-sec > .n { flex: none; width: calc(var(--unit) * 1 - var(--gutter)); min-width: 34px; }
+.doc-sec > .c { flex: 1; min-width: 260px; }
+
+.doc-sec h2 {
+  font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+  font-weight: 400;
+  letter-spacing: -.02em;
+  margin-bottom: 12px;
+}
+.doc-sec h3 {
+  font-size: var(--t-xs);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .01em;
+  margin: 18px 0 8px;
+}
+.doc-sec p { font-size: var(--t-sm); line-height: 1.6; color: var(--fg-50); }
+.doc-sec p + p { margin-top: .9em; }
+.doc-sec strong { color: var(--fg); font-weight: 500; }
+.doc-sec a { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; }
+
+.doc-list { margin-top: 12px; }
+.doc-list li {
+  display: flex;
+  gap: 12px;
+  padding-block: 9px;
+  border-top: 1px solid var(--line-soft);
+  font-size: var(--t-sm);
+  line-height: 1.5;
+  color: var(--fg-50);
+}
+.doc-list li:first-child { border-top: 0; }
+.doc-list .k {
+  flex: none;
+  width: 120px;
+  color: var(--fg);
+  font-weight: 500;
+  word-break: break-word;
+}
+
+/* a field the site owner still has to fill in */
+.fill {
+  padding: 1px 6px;
+  border: 1px dashed var(--fg-30);
+  color: var(--fg);
+  font-size: .95em;
+  white-space: nowrap;
+}
+
+.doc-note {
+  margin-top: clamp(30px, 6vh, 60px);
+  padding: 18px;
+  border: 1px solid var(--line);
+}
+.doc-note p { font-size: var(--t-sm); line-height: 1.6; color: var(--fg-50); }
+
+.doc-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin-top: clamp(30px, 6vh, 60px);
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 860px) {
+  .doc-body { max-width: none; }
+  .doc-sec > .n { width: 100%; }
+  .doc-list li { flex-direction: column; gap: 2px; }
+  .doc-list .k { width: auto; }
+}

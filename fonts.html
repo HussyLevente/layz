@@ -1,15 +1,35 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fonts - Layz</title>
-<meta name="description" content="Browse 250+ Google Fonts by category, set them in your own words, and copy the embed code.">
+<title>Font library - 1,600+ Google Fonts previewed in your own text | Layz</title>
+<meta name="description" content="Search 1,600+ Google Fonts by category, sub-genre and weight. Type any text and the whole library re-sets itself in it. Copy the embed code for any typeface.">
 <meta name="color-scheme" content="light dark">
+<!-- SEO:START -->
+<link rel="canonical" href="https://layzfonts.com/fonts.html">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="blckt.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Layz">
+<meta property="og:url" content="https://layzfonts.com/fonts.html">
+<meta property="og:title" content="Font library - 1,600+ Google Fonts previewed in your own text | Layz">
+<meta property="og:description" content="Search 1,600+ Google Fonts by category, sub-genre and weight. Type any text and the whole library re-sets itself in it. Copy the embed code for any typeface.">
+<meta property="og:image" content="https://layzfonts.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Layz - fonts that get along">
+<meta property="og:locale" content="en">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Font library - 1,600+ Google Fonts previewed in your own text | Layz">
+<meta name="twitter:description" content="Search 1,600+ Google Fonts by category, sub-genre and weight. Type any text and the whole library re-sets itself in it. Copy the embed code for any typeface.">
+<meta name="twitter:image" content="https://layzfonts.com/og-image.png">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
+<!-- SEO:END -->
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;700&display=swap">
+<!-- Google Fonts are attached by consent.js only once the visitor allows it -->
+<script src="js/consent.js"></script>
 
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/fonts.css">
@@ -89,6 +109,23 @@
         <span class="label label--soft size-value" id="sizeValue">34</span>
       </div>
 
+      <div class="tool-group">
+        <label class="label label--soft" for="weightSelect">Weight</label>
+        <div class="select-wrap">
+          <select class="select" id="weightSelect" aria-label="Preview weight">
+            <option value="100">100 Thin</option>
+            <option value="200">200 ExtraLight</option>
+            <option value="300">300 Light</option>
+            <option value="400" selected>400 Regular</option>
+            <option value="500">500 Medium</option>
+            <option value="600">600 SemiBold</option>
+            <option value="700">700 Bold</option>
+            <option value="800">800 ExtraBold</option>
+            <option value="900">900 Black</option>
+          </select>
+        </div>
+      </div>
+
       <div class="view-toggle" role="group" aria-label="Layout">
         <button class="ul-link is-active" id="viewList" aria-pressed="true">List</button>
         <button class="ul-link" id="viewGrid" aria-pressed="false">Grid</button>
@@ -149,6 +186,14 @@
     <div class="detail-hero fnt" id="detailHero">Handgloves</div>
 
     <div class="detail-sec">
+      <h3 class="label label--soft">Weights</h3>
+      <div class="body">
+        <div class="weight-list" id="detailWeights"></div>
+        <p class="label label--soft" id="detailWeightNote" style="margin-top:12px"></p>
+      </div>
+    </div>
+
+    <div class="detail-sec">
       <h3 class="label label--soft">Waterfall</h3>
       <div class="body waterfall" id="detailWaterfall"></div>
     </div>
@@ -200,11 +245,21 @@
       </ul>
     </div>
     <div class="footer-col">
+      <h4 class="label label--soft">Legal</h4>
+      <ul>
+        <li><a class="ul-link" href="privacy.html">Privacy Policy</a></li>
+        <li><a class="ul-link" href="cookies.html">Cookies &amp; storage</a></li>
+        <li><a class="ul-link" href="terms.html">Terms &amp; Conditions</a></li>
+        <li><a class="ul-link" href="legal.html">Legal Notice</a></li>
+        <li><button class="ul-link" data-consent-open>Privacy choices</button></li>
+      </ul>
+    </div>
+    <div class="footer-col">
       <h4 class="label label--soft">Elsewhere</h4>
       <ul>
         <li><a class="ul-link" href="https://fonts.google.com" target="_blank" rel="noopener">Google Fonts</a></li>
         <li><a class="ul-link" href="https://fonts.google.com/knowledge" target="_blank" rel="noopener">Knowledge</a></li>
-        <li><a class="ul-link" href="https://ko-fi.com/blckt" target="_blank" rel="noopener">Support on Ko-fi</a></li>
+        <li><a class="ul-link" href="https://ko-fi.com/layzfonts" target="_blank" rel="noopener">Support on Ko-fi</a></li>
         <li><a class="ul-link" href="https://blckt.hu" target="_blank" rel="noopener">blckt.&trade;</a></li>
       </ul>
     </div>
@@ -215,6 +270,29 @@
   </div>
 </footer>
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://layzfonts.com/fonts.html#page",
+      "url": "https://layzfonts.com/fonts.html",
+      "name": "Font library",
+      "description": "A browsable specimen of 1,603 Latin-capable Google Fonts, previewable in custom text at any size and weight.",
+      "inLanguage": "en",
+      "isPartOf": { "@id": "https://layzfonts.com/#website" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Layz", "item": "https://layzfonts.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Font library", "item": "https://layzfonts.com/fonts.html" }
+      ]
+    }
+  ]
+}
+</script>
 <script src="js/fonts-data.js"></script>
 <script src="js/font-loader.js"></script>
 <script src="js/pairing-engine.js"></script>

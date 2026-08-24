@@ -432,7 +432,9 @@ kbd {
 .cursor-layer {
   position: fixed;
   top: 0; left: 0;
-  z-index: 9000;
+  /* above everything - the pointer must never slide under a panel, and the
+     difference blend is what makes it legible over dark surfaces */
+  z-index: 10000;
   pointer-events: none;
   mix-blend-mode: difference;
   opacity: 0;
@@ -568,6 +570,97 @@ body.page-out { animation: page-exit .55s var(--ease) both; }
 @keyframes navIn {
   from { transform: translateY(18px); }
   to   { transform: none; }
+}
+
+/* ---------------- consent ---------------- */
+.consent {
+  position: fixed;
+  left: var(--gutter);
+  bottom: var(--gutter);
+  z-index: 9400;
+  width: min(420px, calc(100vw - var(--gutter) * 2));
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity .4s var(--ease-io), transform .5s var(--ease-out);
+}
+.consent.is-open { opacity: 1; transform: none; pointer-events: auto; }
+
+.consent-panel {
+  padding: 20px;
+  background: var(--bg);
+  border: 1px solid var(--fg);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .18);
+}
+.consent-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.consent h2 { font-size: var(--t-xs); margin-bottom: 10px; }
+.consent .prose { margin-bottom: 16px; }
+.consent-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.consent-actions .btn { flex: 1 1 auto; justify-content: center; }
+.consent-note {
+  display: block;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  line-height: 1.6;
+}
+.consent-note .ul-link { margin-left: 8px; }
+.consent-note .ul-link:first-child { margin-left: 0; }
+.consent .prose + .prose { margin-top: 10px; }
+
+/* the confirm step carries a little more weight than the first view */
+.consent-warn { position: relative; padding-left: 16px; }
+.consent-warn::before {
+  content: "";
+  position: absolute;
+  left: 0; top: .15em; bottom: .15em;
+  width: 3px;
+  background: var(--fg);
+}
+
+/* persistent notice after declining */
+.consent-bar {
+  position: fixed;
+  left: var(--gutter);
+  bottom: var(--gutter);
+  z-index: 9300;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  max-width: min(560px, calc(100vw - var(--gutter) * 2));
+  padding: 12px 14px;
+  background: var(--bg);
+  border: 1px solid var(--line-strong, var(--fg));
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity .4s var(--ease-io), transform .5s var(--ease-out);
+}
+.consent-bar.is-open { opacity: 1; transform: none; pointer-events: auto; }
+.consent-bar-x {
+  margin-left: auto;
+  font-size: 15px;
+  line-height: 1;
+  color: var(--fg-30);
+  transition: color var(--dur-fast);
+}
+.consent-bar-x:hover { color: var(--fg); }
+
+@media (max-width: 620px) {
+  .consent-bar { left: 0; right: 0; bottom: 0; max-width: none; border-inline: 0; border-bottom: 0; }
+}
+
+@media (max-width: 620px) {
+  .consent { left: 0; right: 0; bottom: 0; width: auto; }
+  .consent-panel { border-inline: 0; border-bottom: 0; }
 }
 
 /* ---------------- toast ---------------- */

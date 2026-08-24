@@ -71,6 +71,13 @@
     if (title.tag === 'condensed' && body.tag === 'condensed') { s -= 2; }
     if (title.tag === 'pixel' && body.tag !== 'neo-grotesque') { s -= 1; }
 
+    /* The library now carries every Latin family Google publishes, most of
+       them untagged. Favour the hand-classified ones so a shuffle mostly
+       lands on faces someone actually vouched for, without ever excluding
+       the rest. */
+    if (title.curated && body.curated) { s += 3; }
+    else if (title.curated || body.curated) { s += 1; }
+
     s += Math.random() * 2; /* keeps results fresh between clicks */
     return s;
   }
@@ -150,20 +157,44 @@
     }).filter(function (p) { return p.title && p.body; });
   }
 
-  function cssFor(pair, opts) {
-    opts = opts || {};
-    var t = pair.title.name, b = pair.body.name;
-    var imp = 'https://fonts.googleapis.com/css2?family=' +
-      t.replace(/\s+/g, '+') + ':wght@400;700&family=' +
-      b.replace(/\s+/g, '+') + ':wght@400;700&display=swap';
-    return '@import url("' + imp + '");\n\n' +
+  /* The css2 endpoint silently ignores a weight a family does not have, so
+     asking for :wght@400;700 on a single-weight face produces code that looks
+     right and renders wrong. Only ever request weights that actually exist. */
+  function headingWeight(font) {
+    return D.hasWeight(font, 700) ? 700 : D.nearestWeight(font, 700);
+  }
+
+  function axisFor(font, weights) {
+    var have = weights.filter(function (w) { return D.hasWeight(font, w); });
+    if (!have.length) { have = [font.weights[0]]; }
+    have.sort(function (a, b) { return a - b; });
+    var name = font.name.replace(/\s+/g, '+');
+    /* a family with only its default instance needs no axis at all */
+    if (have.length === 1 && have[0] === 400) { return 'family=' + name; }
+    return 'family=' + name + ':wght@' + have.join(';');
+  }
+
+  function embedUrl(pair) {
+    var tw = headingWeight(pair.title);
+    return 'https://fonts.googleapis.com/css2?' +
+      axisFor(pair.title, [400, tw]) + '&' +
+      axisFor(pair.body, [400, 700]) + '&display=swap';
+  }
+
+  function cssFor(pair) {
+    var tw = headingWeight(pair.title);
+    var note = tw === 700 ? '' :
+      '/* ' + pair.title.name + ' ships only ' + pair.title.weights.join('/') +
+      ' - headings use ' + tw + ' */\n';
+
+    return '@import url("' + embedUrl(pair) + '");\n\n' + note +
       ':root {\n' +
       '  --font-title: ' + pair.title.stack + ';\n' +
       '  --font-body:  ' + pair.body.stack + ';\n' +
       '}\n\n' +
       'h1, h2, h3, h4 {\n' +
       '  font-family: var(--font-title);\n' +
-      '  font-weight: 700;\n' +
+      '  font-weight: ' + tw + ';\n' +
       '  letter-spacing: -0.02em;\n' +
       '  line-height: 1.1;\n' +
       '}\n\n' +
@@ -175,11 +206,8 @@
   }
 
   function linkFor(pair) {
-    var t = pair.title.name.replace(/\s+/g, '+');
-    var b = pair.body.name.replace(/\s+/g, '+');
     return '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
-      '<link href="https://fonts.googleapis.com/css2?family=' + t +
-      ':wght@400;700&family=' + b + ':wght@400;700&display=swap" rel="stylesheet">';
+      '<link href="' + embedUrl(pair) + '" rel="stylesheet">';
   }
 
   global.LayzPairs = {
@@ -187,6 +215,7 @@
     curatedPairs: curatedPairs,
     cssFor: cssFor,
     linkFor: linkFor,
+    headingWeight: headingWeight,
     superfamilyOf: superfamilyOf,
     TITLE_POOL: TITLE_POOL,
     BODY_POOL: BODY_POOL

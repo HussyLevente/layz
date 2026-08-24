@@ -127,13 +127,26 @@
     }
   }
 
+  /* Every request here discloses the visitor's IP to Google, so nothing is
+     shipped until consent allows it. Queued families simply wait. */
+  function allowed() {
+    return !global.LayzConsent || global.LayzConsent.granted();
+  }
+
   function flush() {
     timer = null;
+    if (!allowed()) { return; }
     var source = priorityQueue.length ? priorityQueue : queue;
     if (!source.length) { return; }
     var batch = source.splice(0, BATCH_SIZE);
     ship(batch);
     if (priorityQueue.length || queue.length) { schedule(); }
+  }
+
+  if (global.LayzConsent && global.LayzConsent.onChange) {
+    global.LayzConsent.onChange(function (ok) {
+      if (ok) { schedule(true); }
+    });
   }
 
   function schedule(immediate) {

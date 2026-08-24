@@ -20,6 +20,7 @@
     view: 'list',
     preview: '',
     size: 34,
+    weight: 400,
     savedOnly: false,
     shown: PAGE
   };
@@ -30,6 +31,9 @@
      Releasing only marks a family evictable - the loader keeps it until the
      live count actually exceeds its cap. */
   var io = F.observer(function (el, name) {
+    /* request the exact cut this row renders, not a blanket 400 */
+    var w = el.getAttribute('data-weight');
+    if (w && w !== '400') { F.load(name, { weights: '400;' + w }); }
     F.ready(name).then(function () {
       var p = el.querySelector('.fr-preview');
       if (p) { p.classList.add('is-ready'); }
@@ -48,6 +52,8 @@
       if (v) { state.view = v; }
       var s = localStorage.getItem('layz.size');
       if (s) { state.size = parseInt(s, 10) || 34; }
+      var w = localStorage.getItem('layz.weight');
+      if (w) { state.weight = parseInt(w, 10) || 400; }
     } catch (e) {}
   })();
 
@@ -87,21 +93,29 @@
   /* ---------------- rendering ---------------- */
   function previewFor(f) { return state.preview || f.name; }
 
+  /* A family only has the cuts it ships. Asking css2 for a missing weight is
+     silently ignored, so resolve to the nearest real one and show which. */
+  function weightFor(f) { return D.nearestWeight(f, state.weight); }
+
   function rowHtml(f, i, absoluteIndex) {
     var saved = L.saved.hasFont(f.name);
     var delay = Math.min(i, 14) * 0.025;
+    var w = weightFor(f);
+    var meta = f.category + ' &middot; ' + f.tag + ' &middot; ' + w +
+      (w === state.weight ? '' : '<span class="fr-sub"> (no ' + state.weight + ')</span>');
     return '<article class="font-row" data-font="' + f.name + '" data-id="' + f.id + '" ' +
-        'tabindex="0" role="button" data-cursor="Open" ' +
+        'data-weight="' + w + '" tabindex="0" role="button" data-cursor="Open" ' +
         'aria-label="' + L.escapeHtml(f.name) + ' details" ' +
         'style="animation-delay:' + delay + 's">' +
       '<span class="fr-top">' +
         '<span class="num fr-num">' + L.pad(absoluteIndex + 1) + '</span>' +
         '<span class="label fr-name">' + L.escapeHtml(f.name) + '</span>' +
       '</span>' +
-      '<span class="fr-preview fnt" style="font-family:' + f.stack.replace(/"/g, '&quot;') + '">' +
+      '<span class="fr-preview fnt" style="font-family:' + f.stack.replace(/"/g, '&quot;') +
+        ';font-weight:' + w + '">' +
         L.escapeHtml(previewFor(f)) +
       '</span>' +
-      '<span class="label label--soft fr-meta">' + f.category + ' &middot; ' + f.tag + '</span>' +
+      '<span class="label label--soft fr-meta">' + meta + '</span>' +
       '<button class="fr-save' + (saved ? ' is-saved' : '') + '" data-save="' + L.escapeHtml(f.name) + '" ' +
         'aria-pressed="' + saved + '" aria-label="Save ' + L.escapeHtml(f.name) + '">' +
         (saved ? 'Saved' : 'Save') +
@@ -216,6 +230,14 @@
   $('sortSelect').addEventListener('change', function (e) {
     state.sort = e.target.value;
     render(true);
+  });
+
+  var weightSelect = $('weightSelect');
+  weightSelect.value = String(state.weight);
+  weightSelect.addEventListener('change', function () {
+    state.weight = parseInt(weightSelect.value, 10) || 400;
+    try { localStorage.setItem('layz.weight', state.weight); } catch (e) {}
+    render();
   });
 
   function setView(v) {
@@ -340,6 +362,25 @@
       glyphs.classList.add('is-ready');
     });
 
+    /* every cut this family ships, each set in itself */
+    var wSample = state.preview || f.name;
+    var wl = '';
+    f.weights.forEach(function (w) {
+      wl += '<button data-set-weight="' + w + '" aria-label="Preview ' + w + '">' +
+        '<span class="w">' + w + ' ' + (D.WEIGHT_LABELS[w] || '') + '</span>' +
+        '<span class="s fnt is-ready" style="font-family:' + f.stack.replace(/"/g, '&quot;') +
+        ';font-weight:' + w + '">' + L.escapeHtml(wSample) + '</span>' +
+      '</button>';
+    });
+    $('detailWeights').innerHTML = wl;
+    $('detailWeightNote').textContent = f.weights.length === 1
+      ? 'This family ships a single weight. Faux-bolding it is disabled site-wide, so 700 will render as 400.'
+      : f.weights.length + ' weights available. Click one to preview the whole library in it.';
+    F.load(f.name, {
+      priority: true,
+      weights: f.weights.length > 1 ? f.weights.join(';') : null
+    });
+
     var wf = '';
     var sample = state.preview || D.SAMPLES[0];
     WATERFALL.forEach(function (px) {
@@ -352,8 +393,10 @@
     $('detailTags').innerHTML = [f.category, f.tag, f.body ? 'body text' : 'headlines']
       .map(function (t) { return '<span class="tag">' + t + '</span>'; }).join('');
 
+    /* request the cuts this family really has - never a phantom 700 */
+    var axis = f.weights.length > 1 ? ':wght@' + f.weights.join(';') : '';
     var url = 'https://fonts.googleapis.com/css2?family=' +
-      f.name.replace(/\s+/g, '+') + ':wght@400;700&display=swap';
+      f.name.replace(/\s+/g, '+') + axis + '&display=swap';
     detailCode.link = '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
       '<link href="' + url + '" rel="stylesheet">';
     detailCode.css = 'font-family: ' + f.stack + ';';
@@ -405,6 +448,17 @@
       btn.setAttribute('aria-pressed', String(added));
       btn.textContent = added ? 'Saved' : 'Save';
     }
+  });
+
+  /* picking a weight in the detail panel re-sets the whole library in it */
+  overlay.addEventListener('click', function (e) {
+    var wb = e.target.closest('[data-set-weight]');
+    if (!wb) { return; }
+    state.weight = parseInt(wb.getAttribute('data-set-weight'), 10) || 400;
+    weightSelect.value = String(state.weight);
+    try { localStorage.setItem('layz.weight', state.weight); } catch (err) {}
+    render();
+    L.toast('Previewing at ' + state.weight);
   });
 
   overlay.addEventListener('click', function (e) {

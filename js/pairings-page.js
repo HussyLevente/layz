@@ -37,9 +37,13 @@
   function applyFonts(pair) {
     var t = pair.title.stack, b = pair.body.stack;
 
-    /* The specimen headline is set at 700, so pull the bold cut too -
-       otherwise the preview would quietly lie about the pairing. */
-    F.load(pair.title.name, { priority: true, weights: '400;700' });
+    /* Ask only for a weight the family actually has, and render the headline
+       at that same weight - otherwise the preview would quietly lie about the
+       pairing on the many single-weight display faces. */
+    var tw = P.headingWeight(pair.title);
+    F.load(pair.title.name, { priority: true, weights: tw === 400 ? null : '400;' + tw });
+    el.title.style.fontWeight = tw;
+    el.titleAa.style.fontWeight = tw;
     el.title.style.fontFamily = t;
     el.titleAa.style.fontFamily = t;
     el.deck.style.fontFamily = b;

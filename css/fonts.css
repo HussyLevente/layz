@@ -105,6 +105,8 @@
 
 .fr-name { flex: none; width: calc(var(--unit) * 2 - var(--gutter)); }
 .fr-meta { flex: none; width: calc(var(--unit) * 2 - var(--gutter)); }
+/* marks a row rendering at a fallback cut because the family lacks the one picked */
+.fr-sub { opacity: .55; }
 
 .fr-save {
   flex: none;
@@ -197,6 +199,38 @@
 }
 .detail-sec > h3 { flex: none; width: calc(var(--unit) * 2 - var(--gutter)); }
 .detail-sec > .body { flex: 1; min-width: 260px; }
+
+/* every cut a family actually ships, set in itself */
+.weight-list > button {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  width: 100%;
+  padding-block: 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--line-soft);
+  transition: padding-left .3s var(--ease-out);
+}
+.weight-list > button:last-child { border-bottom: 0; }
+.weight-list > button:hover { padding-left: 8px; }
+.weight-list .w {
+  flex: none;
+  width: 92px;
+  font-size: var(--t-xs);
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--fg-50);
+  font-variant-numeric: tabular-nums;
+}
+.weight-list .s {
+  flex: 1;
+  min-width: 0;
+  font-size: clamp(1.2rem, 2.4vw, 1.9rem);
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .waterfall > div {
   display: flex;

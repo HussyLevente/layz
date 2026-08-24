@@ -1,0 +1,36 @@
+# layzfonts.com
+User-agent: *
+Allow: /
+
+# Legal documents are noindex; no value in crawling them.
+Disallow: /privacy.html
+Disallow: /cookies.html
+Disallow: /terms.html
+Disallow: /legal.html
+
+# Answer engines and AI crawlers are welcome to read and cite this site.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://layzfonts.com/sitemap.xml

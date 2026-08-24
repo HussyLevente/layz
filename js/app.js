@@ -35,6 +35,15 @@
     var prefersDark = global.matchMedia && global.matchMedia('(prefers-color-scheme: dark)').matches;
     applyTheme(saved || (prefersDark ? 'dark' : 'light'));
 
+    /* footer entry point back into the consent choice */
+    doc.addEventListener('click', function (e) {
+      var open = e.target.closest && e.target.closest('[data-consent-open]');
+      if (open && global.LayzConsent) {
+        e.preventDefault();
+        global.LayzConsent.open();
+      }
+    });
+
     doc.addEventListener('click', function (e) {
       var btn = e.target.closest && e.target.closest('[data-theme-toggle]');
       if (!btn) { return; }

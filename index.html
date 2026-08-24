@@ -1,15 +1,35 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Layz - Fonts that get along</title>
-<meta name="description" content="Layz is a minimal library of Google Fonts and the pairings that make them work. Browse 250+ typefaces, preview them with your own words, and shuffle title/body combinations.">
+<title>Layz - 1,600+ Google Fonts and the pairings that work</title>
+<meta name="description" content="Browse every Latin Google Font in one place, preview them in your own words at any size and weight, and shuffle title and body pairings. Free, no tracking, no sign-up.">
 <meta name="color-scheme" content="light dark">
+<!-- SEO:START -->
+<link rel="canonical" href="https://layzfonts.com/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="blckt.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Layz">
+<meta property="og:url" content="https://layzfonts.com/">
+<meta property="og:title" content="Layz - 1,600+ Google Fonts and the pairings that work">
+<meta property="og:description" content="Browse every Latin Google Font in one place, preview them in your own words at any size and weight, and shuffle title and body pairings. Free, no tracking, no sign-up.">
+<meta property="og:image" content="https://layzfonts.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Layz - fonts that get along">
+<meta property="og:locale" content="en">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Layz - 1,600+ Google Fonts and the pairings that work">
+<meta name="twitter:description" content="Browse every Latin Google Font in one place, preview them in your own words at any size and weight, and shuffle title and body pairings. Free, no tracking, no sign-up.">
+<meta name="twitter:image" content="https://layzfonts.com/og-image.png">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
+<!-- SEO:END -->
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;700&display=swap">
+<!-- Google Fonts are attached by consent.js only once the visitor allows it -->
+<script src="js/consent.js"></script>
 
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/home.css">
@@ -183,9 +203,44 @@
     </div>
   </section>
 
-  <!-- ============ SUPPORT / KO-FI ============
-       NOTE: the Ko-fi handle below is assumed to be ko-fi.com/blckt.
-       If yours differs, change it here and in the footer of each page. -->
+  <!-- ============ FAQ ============ -->
+  <section class="section--tight" id="faq">
+    <div class="section-head" style="padding-inline:var(--gutter)" data-reveal>
+      <span class="idx label label--soft">005</span>
+      <div class="ttl">
+        <h2 class="big big-2">Questions,<br>answered.</h2>
+      </div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-item">
+        <h3>What is Layz?</h3>
+        <p>Layz is a free type specimen tool. It lists every Latin-script family in the Google Fonts library, lets you preview them all in your own text at any size and weight, and generates title-and-body font pairings on demand. There is no account, no paywall and no advertising.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many fonts are on Layz?</h3>
+        <p>1,603 families &mdash; every Google Fonts family that supports the Latin alphabet, sorted by popularity. That includes 548 sans-serifs, 445 display faces, 305 serifs, 254 handwriting fonts and 51 monospace families.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Are Google Fonts free for commercial use?</h3>
+        <p>Yes. Nearly every family in the Google Fonts library is published under the SIL Open Font License 1.1, with a few under the Apache License 2.0. Both permit commercial use, embedding and modification. Layz does not license the fonts to you &mdash; check each family's licence on its Google Fonts page before shipping it.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What makes a good font pairing?</h3>
+        <p>Contrast with a clear hierarchy. One face announces, the other explains. The reliable moves are pairing a serif headline with a sans body, using two members of the same superfamily, or setting an expressive display face over a neutral workhorse. Two faces competing for attention is the usual failure.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Why do some fonts ignore the weight setting?</h3>
+        <p>Many display and handwriting families ship a single weight. The Google Fonts API silently serves the regular cut when you ask for one a family does not have, so Layz reads each family's real weight list and renders the nearest available cut, telling you when it had to fall back.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does Layz use cookies or track visitors?</h3>
+        <p>No. Layz sets no cookies, runs no analytics and has no advertising. A handful of preferences &mdash; your theme, shortlist, view and preview size &mdash; are stored in your own browser and never leave your device. The only third party involved is Google Fonts, which receives your IP address when typefaces load, and you are asked before that happens.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SUPPORT / KO-FI ============ -->
   <section class="section--tight" id="support">
     <div class="section-head" style="padding-inline:var(--gutter)" data-reveal>
       <span class="idx label label--soft">005</span>
@@ -203,7 +258,7 @@
           way toward the next batch of fonts and features.
         </p>
         <div class="kofi-actions">
-          <a class="btn btn--solid" href="https://ko-fi.com/blckt" target="_blank" rel="noopener" data-cursor="Ko-fi">
+          <a class="btn btn--solid" href="https://ko-fi.com/layzfonts" target="_blank" rel="noopener" data-cursor="Ko-fi">
             Buy me a coffee &#8599;
           </a>
           <a class="btn" href="https://blckt.hu" target="_blank" rel="noopener" data-cursor="blckt.hu">
@@ -245,11 +300,21 @@
       </ul>
     </div>
     <div class="footer-col">
+      <h4 class="label label--soft">Legal</h4>
+      <ul>
+        <li><a class="ul-link" href="privacy.html">Privacy Policy</a></li>
+        <li><a class="ul-link" href="cookies.html">Cookies &amp; storage</a></li>
+        <li><a class="ul-link" href="terms.html">Terms &amp; Conditions</a></li>
+        <li><a class="ul-link" href="legal.html">Legal Notice</a></li>
+        <li><button class="ul-link" data-consent-open>Privacy choices</button></li>
+      </ul>
+    </div>
+    <div class="footer-col">
       <h4 class="label label--soft">Elsewhere</h4>
       <ul>
         <li><a class="ul-link" href="https://fonts.google.com" target="_blank" rel="noopener">Google Fonts</a></li>
         <li><a class="ul-link" href="https://fonts.google.com/knowledge" target="_blank" rel="noopener">Knowledge</a></li>
-        <li><a class="ul-link" href="https://ko-fi.com/blckt" target="_blank" rel="noopener">Support on Ko-fi</a></li>
+        <li><a class="ul-link" href="https://ko-fi.com/layzfonts" target="_blank" rel="noopener">Support on Ko-fi</a></li>
         <li><a class="ul-link" href="https://blckt.hu" target="_blank" rel="noopener">blckt.&trade;</a></li>
       </ul>
     </div>
@@ -259,6 +324,88 @@
     <span class="label label--soft">Made by <a class="ul-link credit" href="https://blckt.hu" target="_blank" rel="noopener" data-cursor="blckt.hu">blckt.&trade;</a></span>
   </div>
 </footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://layzfonts.com/#website",
+      "url": "https://layzfonts.com/",
+      "name": "Layz",
+      "description": "A free type specimen tool for the Google Fonts library, with a title and body pairing generator.",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://layzfonts.com/#publisher" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://layzfonts.com/#publisher",
+      "name": "blckt.",
+      "url": "https://blckt.hu",
+      "email": "hello@blckt.hu"
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://layzfonts.com/#app",
+      "name": "Layz",
+      "url": "https://layzfonts.com/",
+      "applicationCategory": "DesignApplication",
+      "applicationSubCategory": "Typography tool",
+      "operatingSystem": "Any modern web browser",
+      "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+      "featureList": [
+        "Preview 1,603 Google Fonts in your own text",
+        "Filter by category, sub-genre and weight",
+        "Render any family at every weight it ships",
+        "Generate scored title and body font pairings",
+        "Copy ready-made embed links and CSS",
+        "Shortlist fonts and pairings in your browser"
+      ],
+      "screenshot": "https://layzfonts.com/og-image.png",
+      "publisher": { "@id": "https://layzfonts.com/#publisher" }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://layzfonts.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Layz?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Layz is a free type specimen tool. It lists every Latin-script family in the Google Fonts library, lets you preview them all in your own text at any size and weight, and generates title-and-body font pairings on demand. There is no account, no paywall and no advertising." }
+        },
+        {
+          "@type": "Question",
+          "name": "How many fonts are on Layz?",
+          "acceptedAnswer": { "@type": "Answer", "text": "1,603 families - every Google Fonts family that supports the Latin alphabet, sorted by popularity. That includes 548 sans-serifs, 445 display faces, 305 serifs, 254 handwriting fonts and 51 monospace families." }
+        },
+        {
+          "@type": "Question",
+          "name": "Are Google Fonts free for commercial use?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Nearly every family in the Google Fonts library is published under the SIL Open Font License 1.1, with a few under the Apache License 2.0. Both permit commercial use, embedding and modification. Layz does not license the fonts to you - check each family's licence on its Google Fonts page before shipping it." }
+        },
+        {
+          "@type": "Question",
+          "name": "What makes a good font pairing?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Contrast with a clear hierarchy. One face announces, the other explains. The reliable moves are pairing a serif headline with a sans body, using two members of the same superfamily, or setting an expressive display face over a neutral workhorse. Two faces competing for attention is the usual failure." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why do some fonts ignore the weight setting?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Many display and handwriting families ship a single weight. The Google Fonts API silently serves the regular cut when you ask for one a family does not have, so Layz reads each family's real weight list and renders the nearest available cut, telling you when it had to fall back." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Layz use cookies or track visitors?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Layz sets no cookies, runs no analytics and has no advertising. A handful of preferences - your theme, shortlist, view and preview size - are stored in your own browser and never leave your device. The only third party involved is Google Fonts, which receives your IP address when typefaces load, and you are asked before that happens." }
+        }
+      ]
+    }
+  ]
+}
+</script>
 
 <script src="js/fonts-data.js"></script>
 <script src="js/font-loader.js"></script>
