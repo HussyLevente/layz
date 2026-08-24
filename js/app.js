@@ -86,33 +86,52 @@
   }
 
   /* ---------------- reveals ---------------- */
+  function reveal(el) {
+    el.classList.remove('reveal-armed');
+    el.classList.add('is-revealed');
+  }
+
   function initReveal(root) {
-    var nodes = (root || doc).querySelectorAll('[data-reveal]:not(.is-revealed), .rule-draw:not(.is-revealed)');
+    var nodes = (root || doc).querySelectorAll(
+      '[data-reveal]:not(.is-revealed), .rule-draw:not(.is-revealed)');
     if (!nodes.length) { return; }
+
+    /* No animation wanted or possible - leave everything as it already is. */
     if (reduceMotion || !('IntersectionObserver' in global)) {
       nodes.forEach(function (n) { n.classList.add('is-revealed'); });
       return;
     }
+
+    var list = Array.prototype.slice.call(nodes);
+    list.forEach(function (n) { n.classList.add('reveal-armed'); });
+
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) { return; }
         var el = entry.target;
         var delay = parseFloat(el.getAttribute('data-reveal-delay') || 0);
-        setTimeout(function () { el.classList.add('is-revealed'); }, delay * 1000);
+        setTimeout(function () { reveal(el); }, delay * 1000);
         io.unobserve(el);
       });
-    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.05 });
-    nodes.forEach(function (n) { io.observe(n); });
+    }, { rootMargin: '0px 0px -5% 0px', threshold: 0 });
 
-    /* Safety net: reveal-on-scroll starts invisible, so anything already on
-       screen that the observer never reported must not stay hidden. */
-    setTimeout(function () {
-      nodes.forEach(function (n) {
-        if (n.classList.contains('is-revealed')) { return; }
+    list.forEach(function (n) { io.observe(n); });
+
+    /* Backstop: anything still armed but on screen gets revealed anyway, so a
+       missed observer callback can never leave real content invisible. */
+    var sweep = function () {
+      var vh = global.innerHeight || 0;
+      for (var i = list.length - 1; i >= 0; i--) {
+        var n = list[i];
+        if (!n.classList.contains('reveal-armed')) { list.splice(i, 1); continue; }
         var r = n.getBoundingClientRect();
-        if (r.top < (global.innerHeight || 0) && r.bottom > 0) { n.classList.add('is-revealed'); }
-      });
-    }, 2500);
+        if (r.top < vh && r.bottom > 0) { reveal(n); io.unobserve(n); list.splice(i, 1); }
+      }
+    };
+    doc.addEventListener('scroll', debounce(sweep, 200), { passive: true });
+    global.addEventListener('resize', debounce(sweep, 200));
+    setTimeout(sweep, 1200);
+    setTimeout(sweep, 3000);
   }
 
   /* ---------------- header ---------------- */
@@ -240,37 +259,44 @@
     /* the system pointer is only hidden now that its replacement exists */
     doc.documentElement.classList.add('cursor-hidden');
 
-    var x = global.innerWidth / 2, y = global.innerHeight / 2;
-    var cx = x, cy = y;
-    var running = false;
+    var HOT = 'a, button, [role="button"], input, select, textarea, [contenteditable="true"], [data-cursor]';
 
-    function frame() {
-      cx += (x - cx) * 0.22;
-      cy += (y - cy) * 0.22;
-      layer.style.transform = 'translate3d(' + cx.toFixed(2) + 'px,' + cy.toFixed(2) + 'px,0)';
-      if (running) { requestAnimationFrame(frame); }
-    }
+    var live = false;
+    var lastTarget = null;
 
+    /* The dot tracks the pointer 1:1. Any easing here reads as lag, which is
+       the one thing a cursor must never do. Chrome already coalesces
+       mousemove to one dispatch per frame, so writing the transform straight
+       from the handler is both the cheapest and the most immediate option -
+       and unlike a rAF loop it cannot stall if frames are throttled. */
     doc.addEventListener('mousemove', function (e) {
-      x = e.clientX;
-      y = e.clientY;
-      if (!running) {
-        running = true;
-        cx = x; cy = y;
+      layer.style.transform =
+        'translate3d(' + e.clientX + 'px,' + e.clientY + 'px,0)';
+
+      if (!live) {
+        live = true;
         layer.classList.add('is-live');
-        requestAnimationFrame(frame);
       }
-      var hot = e.target.closest('a, button, [role="button"], input, select, [data-cursor]');
-      if (hot) {
-        layer.classList.add('is-hot');
-        var text = hot.getAttribute('data-cursor');
-        if (!text) {
-          text = hot.tagName === 'A' ? 'Open' : (hot.tagName === 'INPUT' ? 'Type' : 'Click');
-        }
-        if (labelEl.textContent !== text) { labelEl.textContent = text; }
-      } else {
+
+      /* Hit-testing walks the whole ancestor chain, so only redo it when the
+         element under the pointer actually changes - not on every event. */
+      if (e.target === lastTarget) { return; }
+      lastTarget = e.target;
+
+      var hot = e.target.closest(HOT);
+      if (!hot) {
         layer.classList.remove('is-hot');
+        return;
       }
+      layer.classList.add('is-hot');
+      var text = hot.getAttribute('data-cursor');
+      if (!text) {
+        var tag = hot.tagName;
+        text = tag === 'A' ? 'Open'
+          : (tag === 'INPUT' || tag === 'TEXTAREA' || hot.isContentEditable) ? 'Type'
+          : 'Click';
+      }
+      if (labelEl.textContent !== text) { labelEl.textContent = text; }
     }, { passive: true });
 
     doc.addEventListener('mouseleave', function () { layer.classList.remove('is-live'); });

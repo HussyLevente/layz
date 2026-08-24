@@ -257,6 +257,17 @@
   .toolbar .field, .toolbar .field--preview { max-width: none; flex-basis: 100%; }
   .font-grid[data-view="grid"] { grid-template-columns: 1fr; }
 }
+@media (max-width: 760px) {
+  /* the category filters are their own row and wrap instead of running off */
+  .toolbar-row .toolbar-row { flex: 1 1 100%; row-gap: 8px; }
+  .tool-group { flex: 1 1 auto; }
+  .size-slider { flex: 1; min-width: 90px; }
+  .view-toggle { gap: 14px; }
+  .result-bar { row-gap: 4px; }
+  .detail-sec > h3 { width: 100%; }
+  .detail-actions .btn { flex: 1 1 100%; justify-content: center; }
+}
+
 @media (max-width: 620px) {
   .fr-num { width: 30px; }
   .fr-save { opacity: 1; }

@@ -319,6 +319,17 @@
   .gcard .gfoot { width: auto; flex: 1; }
   .gcard .gtitle { width: auto; flex: none; }
 }
+@media (max-width: 760px) {
+  /* keyboard shortcuts are meaningless on a touch device */
+  .shortcuts { display: none; }
+  .lock-btn { width: 40px; height: 40px; }
+  .swap-btn { width: 40px; height: 40px; }
+  .slot { padding: 14px var(--gutter); }
+  .stage-bar { row-gap: 6px; }
+  .spec-scale-row { row-gap: 10px; }
+  .spec-scale-row input[type="range"] { flex: 1; }
+}
+
 @media (max-width: 620px) {
   .gcard .gtag { display: none; }
   .gcard .gnum { width: 30px; }

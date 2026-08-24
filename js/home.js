@@ -28,29 +28,60 @@
     else { setTimeout(function () { heroTitle.classList.add('is-settled'); }, 1600); }
   }
 
+  /* Ten things fonts can do, each in a different face. */
+  var MORPH_PHRASES = [
+    'get along', 'work together', 'never fight', 'hold a page', 'look expensive',
+    'read at 14px', 'keep quiet', 'play nicely', 'age well', 'say something'
+  ];
+
   var morph = $('morphWord');
+  var morphLine = morph ? morph.closest('.line') : null;
+
+  /* The phrases differ in length and the faces differ in width, so a long
+     phrase in a wide face could run past the column. Shrink to fit rather
+     than wrap - wrapping would change the headline's height. */
+  function fitMorph() {
+    if (!morph || !morphLine) { return; }
+    morph.style.fontSize = '';
+    var avail = morphLine.clientWidth;
+    if (!avail) { return; }
+    var w = morph.scrollWidth;
+    if (w > avail) {
+      morph.style.fontSize = Math.max(40, Math.floor((avail / w) * 100)) + '%';
+    }
+  }
+
   if (morph) {
     /* set the first face straight away so the word never sits in the UI font */
     F.ready(MORPH_FONTS[0]).then(function () {
-      if (morph.style.fontFamily) { return; }
-      morph.style.fontFamily = D.BY_NAME[MORPH_FONTS[0]].stack;
+      if (!morph.style.fontFamily) {
+        morph.style.fontFamily = D.BY_NAME[MORPH_FONTS[0]].stack;
+      }
+      fitMorph();
     });
+    window.addEventListener('resize', L.debounce(fitMorph, 150));
   }
+
   if (morph && !reduce) {
     var mi = 0;
     setInterval(function () {
-      mi = (mi + 1) % MORPH_FONTS.length;
-      var name = MORPH_FONTS[mi];
+      mi++;
+      var phrase = MORPH_PHRASES[mi % MORPH_PHRASES.length];
+      var name = MORPH_FONTS[mi % MORPH_FONTS.length];
+      F.load(name, { priority: true });
+
       morph.style.transition = 'opacity .18s ease, transform .18s ease';
       morph.style.opacity = '0';
       morph.style.transform = 'translateY(-4px)';
       setTimeout(function () {
         var f = D.BY_NAME[name];
+        morph.textContent = phrase;
         morph.style.fontFamily = f ? f.stack : name;
+        fitMorph();
         morph.style.opacity = '1';
         morph.style.transform = 'none';
       }, 190);
-    }, 2400);
+    }, 2600);
   }
 
   /* ---------- 2. specimen ---------- */
