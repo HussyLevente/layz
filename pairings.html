@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pairings - Layz</title>
+<meta name="description" content="Shuffle title and body font pairings from Google Fonts. Lock a font you like, filter by category, edit the sample text and copy the CSS.">
+<meta name="color-scheme" content="light dark">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;700&display=swap">
+
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/pairings.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='30' y='30' width='40' height='40' fill='%23171717'/%3E%3C/svg%3E">
+
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('layz.theme');
+      if (!t) { t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="intro" aria-hidden="true">
+  <div class="intro-mark"><i></i></div>
+  <div class="intro-count">000</div>
+</div>
+
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="index.html" data-cursor="Home">Layz</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html">Index</a>
+      <a href="fonts.html">Fonts</a>
+      <a href="pairings.html">Pairings</a>
+      <a href="fonts.html?saved=1">Saved</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" data-theme-toggle aria-label="Switch theme" data-cursor="Theme">
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+      <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h18M3 16h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="corner"><a href="fonts.html">Library &#8599;</a></div>
+
+<main id="main">
+
+  <section class="page-head">
+    <div class="head-row">
+      <span class="label">The pairing machine</span>
+      <span class="label label--soft">Index / 003</span>
+    </div>
+    <h1>One title font.<br>One text font.</h1>
+    <p class="prose">
+      Hit shuffle until something clicks. Lock the half you like and keep rolling the other.
+      Everything in the sample below is editable &mdash; click the text and type your own.
+    </p>
+  </section>
+
+  <!-- ============ CONTROLS ============ -->
+  <div class="controls">
+    <div class="controls-row">
+      <button class="btn shuffle" id="shuffleBtn" data-cursor="Shuffle">
+        Shuffle pairing
+        <span class="kbd-hint">Space</span>
+      </button>
+
+      <span class="ctrl-sep"></span>
+
+      <div class="select-wrap">
+        <select class="select" id="titleCat" aria-label="Title font category">
+          <option value="all">Title: any</option>
+          <option value="serif">Title: serif</option>
+          <option value="sans">Title: sans</option>
+          <option value="display">Title: display</option>
+          <option value="handwriting">Title: handwriting</option>
+          <option value="mono">Title: mono</option>
+        </select>
+      </div>
+
+      <div class="select-wrap">
+        <select class="select" id="bodyCat" aria-label="Text font category">
+          <option value="all">Text: any</option>
+          <option value="sans">Text: sans</option>
+          <option value="serif">Text: serif</option>
+          <option value="mono">Text: mono</option>
+          <option value="display">Text: display</option>
+          <option value="handwriting">Text: handwriting</option>
+        </select>
+      </div>
+
+      <span class="spacer"></span>
+
+      <button class="ul-link" id="saveBtn"><span id="saveLabel">Save</span></button>
+      <button class="ul-link" id="copyBtn">Copy CSS</button>
+      <button class="ul-link" id="shareBtn">Copy link</button>
+    </div>
+  </div>
+
+  <!-- ============ STAGE ============ -->
+  <section class="stage-wrap">
+    <article class="stage" id="stage">
+      <div class="stage-bar">
+        <span class="pair-tag" id="pairTag">Editorial</span>
+        <span class="label label--soft" id="pairNote">Hand-picked pairing</span>
+        <span class="spacer"></span>
+        <span class="label label--soft" id="pairIndex"></span>
+      </div>
+
+      <div class="stage-body">
+        <div class="spec-eyebrow fnt" id="specEyebrow">Layz / specimen no. 01</div>
+        <h2 class="spec-title fnt" id="specTitle" contenteditable="true" spellcheck="false" data-cursor="Edit">A quiet revolution in reading</h2>
+        <p class="spec-deck fnt" id="specDeck" contenteditable="true" spellcheck="false" data-cursor="Edit">
+          Every letterform carries an argument about how a sentence should feel.
+        </p>
+        <div class="spec-columns fnt" id="specColumns" contenteditable="true" spellcheck="false" data-cursor="Edit">
+          <p>Good pairings are rarely about contrast for its own sake. They are about hierarchy: one voice announces, the other explains. When both try to announce, nobody listens.</p>
+          <p>Test the combination at the sizes you will actually ship. A typeface behaves differently at fourteen pixels than it does at one hundred and forty, and the pair that sang on a poster can mumble in a paragraph.</p>
+        </div>
+
+        <div class="spec-scale-row">
+          <label class="label label--soft" for="scaleSlider">Title scale</label>
+          <input id="scaleSlider" type="range" min="60" max="160" value="100" aria-label="Title scale">
+          <span class="label label--soft" id="scaleValue">100%</span>
+          <span class="spacer"></span>
+          <button class="ul-link" id="resetText">Reset sample text</button>
+          <button class="ul-link" id="newText">New sample text</button>
+        </div>
+      </div>
+
+      <div class="slots">
+        <div class="slot">
+          <div class="slot-aa fnt" id="titleAa">Aa</div>
+          <div class="slot-info">
+            <span class="label label--soft">Title font</span>
+            <span class="slot-name" id="titleName">Playfair Display</span>
+            <span class="label label--soft" id="titleMeta">serif &middot; didone</span>
+          </div>
+          <div class="slot-actions">
+            <button class="lock-btn" id="lockTitle" aria-pressed="false" aria-label="Lock title font" title="Lock title font (T)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="9"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            </button>
+            <a class="lock-btn" id="titleInfo" href="fonts.html" aria-label="View title font in library" title="View in library">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="slot-divider">
+          <button class="swap-btn" id="swapBtn" aria-label="Swap fonts" title="Swap title and text (S)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M7 4L4 7M7 4l3 3M17 20V4M17 20l3-3M17 20l-3-3"/></svg>
+          </button>
+        </div>
+
+        <div class="slot">
+          <div class="slot-aa fnt" id="bodyAa">Aa</div>
+          <div class="slot-info">
+            <span class="label label--soft">Text font</span>
+            <span class="slot-name" id="bodyName">Source Sans 3</span>
+            <span class="label label--soft" id="bodyMeta">sans &middot; humanist</span>
+          </div>
+          <div class="slot-actions">
+            <button class="lock-btn" id="lockBody" aria-pressed="false" aria-label="Lock text font" title="Lock text font (B)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="9"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            </button>
+            <a class="lock-btn" id="bodyInfo" href="fonts.html" aria-label="View text font in library" title="View in library">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <details class="code-panel">
+      <summary>Show the code</summary>
+      <div class="inner">
+        <div class="code-block" id="codeLink"></div>
+        <div class="code-block" id="codeCss"></div>
+        <div class="controls-row" style="margin-top:12px;gap:16px">
+          <button class="ul-link" data-copy="link">Copy &lt;link&gt;</button>
+          <button class="ul-link" data-copy="css">Copy CSS</button>
+        </div>
+      </div>
+    </details>
+
+    <div class="shortcuts">
+      <span><kbd>Space</kbd> <span class="label label--soft">shuffle</span></span>
+      <span><kbd>T</kbd> <span class="label label--soft">lock title</span></span>
+      <span><kbd>B</kbd> <span class="label label--soft">lock text</span></span>
+      <span><kbd>S</kbd> <span class="label label--soft">swap</span></span>
+      <span><kbd>C</kbd> <span class="label label--soft">copy CSS</span></span>
+      <span><kbd>F</kbd> <span class="label label--soft">save</span></span>
+    </div>
+  </section>
+
+  <!-- ============ SAVED ============ -->
+  <section class="section--tight" id="savedSection">
+    <div class="section-head" style="padding-inline:var(--gutter)">
+      <span class="idx label label--soft">004</span>
+      <div class="ttl"><h2 class="big big-3">Saved pairings</h2></div>
+    </div>
+    <div class="gallery" id="savedGallery"></div>
+    <div class="empty-slot" id="savedEmpty">
+      <span class="label label--soft">Nothing saved yet. Press <kbd>F</kbd> or hit Save when a pairing is worth keeping.</span>
+    </div>
+  </section>
+
+  <!-- ============ CURATED ============ -->
+  <section class="section--tight">
+    <div class="section-head" style="padding-inline:var(--gutter)" data-reveal>
+      <span class="idx label label--soft">005</span>
+      <div class="ttl">
+        <h2 class="big big-2">Pairings that<br>always work.</h2>
+        <p class="prose" style="margin-top:16px">Thirty combinations chosen the slow way. Click any one to load it into the specimen above.</p>
+      </div>
+    </div>
+    <div class="gallery" id="curatedGallery"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-mark spacer">Layz</div>
+    <div class="footer-col">
+      <h4 class="label label--soft">Explore</h4>
+      <ul>
+        <li><a class="ul-link" href="fonts.html">All fonts</a></li>
+        <li><a class="ul-link" href="pairings.html">Pairings</a></li>
+        <li><a class="ul-link" href="fonts.html?category=serif">Serif</a></li>
+        <li><a class="ul-link" href="fonts.html?category=display">Display</a></li>
+        <li><a class="ul-link" href="fonts.html?saved=1">Saved</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 class="label label--soft">Elsewhere</h4>
+      <ul>
+        <li><a class="ul-link" href="https://fonts.google.com" target="_blank" rel="noopener">Google Fonts</a></li>
+        <li><a class="ul-link" href="https://fonts.google.com/knowledge" target="_blank" rel="noopener">Knowledge</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="label label--soft">&copy; <span data-year>2026</span> Layz &mdash; Typefaces served by Google Fonts</span>
+    <span class="label label--soft">Made for people who zoom in on letterforms</span>
+  </div>
+</footer>
+
+<script src="js/fonts-data.js"></script>
+<script src="js/font-loader.js"></script>
+<script src="js/pairing-engine.js"></script>
+<script src="js/app.js"></script>
+<script src="js/pairings-page.js"></script>
+</body>
+</html>
