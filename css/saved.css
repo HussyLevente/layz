@@ -1,0 +1,63 @@
+/* ============================================================
+   Layz - saved page
+   Rides on fonts.css (.font-row) and pairings.css (.gcard);
+   this file only carries what differs on a shortlist.
+   ============================================================ */
+
+.saved-head {
+  display: flex;
+  align-items: center;
+  gap: var(--gutter);
+  flex-wrap: wrap;
+  padding: 12px var(--gutter);
+  border-top: 1px solid var(--line);
+}
+.saved-head .ttl { font-size: var(--t-xs); font-weight: 500; text-transform: uppercase; }
+.saved-head .ttl .count { color: var(--fg-50); margin-left: 6px; font-variant-numeric: tabular-nums; }
+
+/* actions are permanent here - nothing to discover, the row is already saved */
+.saved-rows .fr-save,
+.saved-rows .gremove { opacity: 1; }
+
+.saved-rows .fr-save { color: var(--fg-50); width: 76px; }
+.saved-rows .fr-save:hover { color: var(--fg); }
+.saved-rows .fr-save::before { content: none; }
+
+.saved-empty {
+  margin: 0 var(--gutter);
+  padding: clamp(34px, 7vh, 70px) 20px;
+  text-align: center;
+  border: 1px solid var(--line);
+}
+.saved-empty h3 {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-weight: 400;
+  letter-spacing: -.02em;
+  margin-bottom: 10px;
+}
+.saved-empty .prose { margin-inline: auto; }
+.saved-empty .btn { margin-top: 22px; }
+
+/* the shortlist summary that sits under the page title */
+.saved-summary {
+  display: flex;
+  gap: var(--gutter);
+  flex-wrap: wrap;
+  margin-top: clamp(20px, 3vh, 32px);
+  margin-left: calc(var(--unit) * 2);
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.saved-summary .stat { min-width: var(--col); }
+.saved-summary .n {
+  display: block;
+  font-size: clamp(1.4rem, 2.6vw, 2.4rem);
+  line-height: 1;
+  letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 6px;
+}
+
+@media (max-width: 860px) {
+  .saved-summary { margin-left: 0; }
+}

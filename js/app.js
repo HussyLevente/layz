@@ -237,6 +237,9 @@
     doc.body.appendChild(layer);
     var labelEl = layer.querySelector('.cursor-label span');
 
+    /* the system pointer is only hidden now that its replacement exists */
+    doc.documentElement.classList.add('cursor-hidden');
+
     var x = global.innerWidth / 2, y = global.innerHeight / 2;
     var cx = x, cy = y;
     var running = false;

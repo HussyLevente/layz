@@ -19,6 +19,15 @@
   ];
   F.load(MORPH_FONTS, { priority: true });
 
+  /* Once the entry animation has played, the masking overflow is no longer
+     needed - and keeping it would clip the descenders of whichever face the
+     morph word lands on next. */
+  var heroTitle = document.querySelector('.hero-title');
+  if (heroTitle) {
+    if (reduce) { heroTitle.classList.add('is-settled'); }
+    else { setTimeout(function () { heroTitle.classList.add('is-settled'); }, 1600); }
+  }
+
   var morph = $('morphWord');
   if (morph) {
     /* set the first face straight away so the word never sits in the UI font */

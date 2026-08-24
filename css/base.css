@@ -335,6 +335,8 @@ ul, ol { list-style: none; }
 .ul-link.is-active::after { transform: scaleX(1); transform-origin: left; }
 .ul-link .count { opacity: .5; margin-left: 5px; font-variant-numeric: tabular-nums; }
 
+.credit { color: var(--fg); }
+
 /* ---------------- inputs ---------------- */
 .field {
   display: flex;
@@ -466,6 +468,16 @@ kbd {
 @media (hover: none), (pointer: coarse) {
   .cursor-layer { display: none; }
 }
+
+/* Only hide the system pointer once the custom one is actually running, so a
+   JS failure can never leave the page with no cursor at all. */
+html.cursor-hidden,
+html.cursor-hidden *,
+html.cursor-hidden a,
+html.cursor-hidden button,
+html.cursor-hidden input,
+html.cursor-hidden select,
+html.cursor-hidden [contenteditable="true"] { cursor: none; }
 
 /* ---------------- intro loader ---------------- */
 .intro {
@@ -681,9 +693,15 @@ body.page-out { animation: page-exit .55s var(--ease) both; }
 }
 .skip-link:focus { top: var(--gutter); }
 
-/* font previews fade in once glyphs land */
-.fnt { opacity: 0; transition: opacity .45s var(--ease-io); }
-.fnt.is-ready { opacity: 1; }
+/* Font previews.
+   These must NEVER be hidden while glyphs load: a 266-row list gated on a
+   network event renders as a blank page whenever Google Fonts is slow, and
+   the row's own name is the preview. font-display: swap already paints the
+   fallback, so we only settle the colour once the real face arrives. */
+.fnt {
+  opacity: 1;
+  transition: color .35s var(--ease-io);
+}
 
 .empty {
   padding: clamp(50px, 14vh, 130px) var(--gutter);

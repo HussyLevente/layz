@@ -25,9 +25,16 @@
   };
 
   var visible = [];
+  /* Persistent observer: rows load their family on the way in and release it
+     on the way out, so a long catalogue cannot grow the font cache forever.
+     Releasing only marks a family evictable - the loader keeps it until the
+     live count actually exceeds its cap. */
   var io = F.observer(function (el, name) {
-    F.ready(name).then(function () { el.classList.add('is-ready'); });
-  });
+    F.ready(name).then(function () {
+      var p = el.querySelector('.fr-preview');
+      if (p) { p.classList.add('is-ready'); }
+    });
+  }, { persist: true, rootMargin: '900px 0px' });
 
   /* ---------------- read URL + storage ---------------- */
   (function boot() {
@@ -421,7 +428,8 @@
   /* ---------------- load stats ---------------- */
   setInterval(function () {
     var s = F.stats();
-    $('loadStats').textContent = s.families + ' loaded / ' + s.requests + ' requests';
+    $('loadStats').textContent = s.live + ' live / ' + s.requests + ' requests' +
+      (s.evicted ? ' / ' + s.evicted + ' released' : '');
   }, 900);
 
   render(true);
