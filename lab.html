@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Type lab - WCAG contrast, components and variable fonts | Layz</title>
+<meta name="description" content="Four free type tools: live WCAG AA/AAA contrast checking, real UI components wearing your pairing, twelve brand-mood palettes, and a variable-font axis playground. Copy the CSS from any of them.">
+<meta name="color-scheme" content="light dark">
+<!-- SEO:START -->
+<link rel="canonical" href="https://layzfonts.com/lab.html">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="blckt.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Layz">
+<meta property="og:url" content="https://layzfonts.com/lab.html">
+<meta property="og:title" content="Type lab - WCAG contrast, components and variable fonts | Layz">
+<meta property="og:description" content="Four free type tools: live WCAG AA/AAA contrast checking, real UI components wearing your pairing, twelve brand-mood palettes, and a variable-font axis playground. Copy the CSS from any of them.">
+<meta property="og:image" content="https://layzfonts.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Layz - fonts that get along">
+<meta property="og:locale" content="en">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Type lab - WCAG contrast, components and variable fonts | Layz">
+<meta name="twitter:description" content="Four free type tools: live WCAG AA/AAA contrast checking, real UI components wearing your pairing, twelve brand-mood palettes, and a variable-font axis playground. Copy the CSS from any of them.">
+<meta name="twitter:image" content="https://layzfonts.com/og-image.png">
+<meta name="theme-color" content="#ffffff">
+<!-- SEO:END -->
+
+<!-- Google Fonts are attached by consent.js only once the visitor allows it -->
+<script src="js/consent.js"></script>
+
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/lab.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='30' y='30' width='40' height='40' fill='%23171717'/%3E%3C/svg%3E">
+
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('layz.theme');
+      /* Light is the default regardless of the OS setting; only an explicit
+         toggle (stored in layz.theme) can switch it. */
+      if (t !== 'dark' && t !== 'light') { t = 'light'; }
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body class="has-canvas">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="intro" aria-hidden="true">
+  <div class="intro-mark"><i></i></div>
+  <div class="intro-count">000</div>
+</div>
+
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="index.html" data-cursor="Home">Layz</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html">Index</a>
+      <a href="fonts.html">Fonts</a>
+      <a href="pairings.html">Pairings</a>
+      <a href="lab.html">Lab</a>
+      <a href="saved.html">Saved</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" data-theme-toggle aria-label="Switch theme" data-cursor="Theme">
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+      <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h18M3 16h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="corner"><a href="pairings.html">Pairings &#8599;</a></div>
+
+<main id="main">
+
+  <section class="lab-head">
+    <div class="head-row">
+      <span class="label">The type lab</span>
+      <span class="label label--soft">Index / 006</span>
+    </div>
+    <h1>Does it<br>actually work?</h1>
+    <p class="prose">
+      A pairing that looks right on white can fail the moment it meets a real background.
+      Put colour behind it, check it against WCAG, and see what happens in dark mode &mdash;
+      before it ships.
+    </p>
+  </section>
+
+  <!-- ============ TABS ============ -->
+  <div class="lab-tabs" role="tablist" aria-label="Lab tools">
+    <button class="lab-tab" role="tab" data-tool-btn="contrast" aria-selected="false" tabindex="-1" data-cursor="Open">
+      <span class="n">01</span>Contrast
+    </button>
+    <button class="lab-tab" role="tab" data-tool-btn="components" aria-selected="false" tabindex="-1" data-cursor="Open">
+      <span class="n">02</span>Components
+    </button>
+    <button class="lab-tab" role="tab" data-tool-btn="vibe" aria-selected="false" tabindex="-1" data-cursor="Open">
+      <span class="n">03</span>Brand vibe
+    </button>
+    <button class="lab-tab" role="tab" data-tool-btn="variable" aria-selected="false" tabindex="-1" data-cursor="Open">
+      <span class="n">04</span>Variable
+    </button>
+  </div>
+
+  <!-- ============ 01 CONTRAST ============ -->
+  <section id="toolContrast" data-tool="contrast" role="tabpanel" aria-label="Contrast lab" hidden>
+    <div class="lab-work">
+
+      <!-- canvas -->
+      <div class="lab-canvas" id="ctCanvas" data-palette>
+        <div class="ct-eyebrow fnt" id="ctChip">Layz / contrast specimen</div>
+        <h2 class="ct-headline fnt" id="ctHeadline" contenteditable="true" spellcheck="false" data-cursor="Edit">A quiet revolution in reading</h2>
+        <p class="ct-deck fnt" id="ctDeck" contenteditable="true" spellcheck="false" data-cursor="Edit">
+          Large text clears the bar at three to one. Body copy has to reach four and a half.
+        </p>
+        <div class="ct-copy fnt" id="ctCopyText" contenteditable="true" spellcheck="false" data-cursor="Edit">
+          <p>Every letterform carries an argument about how a sentence should feel. Choose two that agree, and the page stops fighting the reader. Choose two that disagree politely, and the page starts to sing.</p>
+          <p>Contrast is not a matter of taste. It is a ratio between two relative luminances, and a reader with low vision either clears it or does not.</p>
+        </div>
+        <p class="ct-small fnt" id="ctSmall">
+          Caption, legal line, or form hint &mdash; the size where a pairing quietly fails.
+        </p>
+        <div class="ct-ui-row">
+          <span class="ct-btn fnt" id="ctButton">Primary action</span>
+          <span class="ct-chip fnt">Secondary</span>
+        </div>
+      </div>
+
+      <!-- controls -->
+      <div class="lab-side">
+
+        <div class="lab-block">
+          <div class="lab-block-head">
+            <span class="label">Result</span>
+            <span class="spacer"></span>
+            <span class="label label--soft">WCAG 2.1</span>
+          </div>
+          <div class="ct-score">
+            <span class="ct-ratio" id="ctRatio">21.00:1</span>
+            <span class="ct-verdict" id="ctVerdict">Passes AAA</span>
+          </div>
+          <div id="ctGrades"></div>
+          <div class="ct-other" id="ctOther"></div>
+        </div>
+
+        <div class="lab-block">
+          <div class="lab-block-head">
+            <span class="label">Palette</span>
+            <span class="spacer"></span>
+            <span class="label label--soft">editing</span>
+          </div>
+          <div class="lab-block-body">
+            <div class="lab-seg" role="group" aria-label="Preview mode">
+              <button data-mode-btn="light" aria-pressed="true" data-cursor="Light">Light</button>
+              <button data-mode-btn="dark" aria-pressed="false" data-cursor="Dark">Dark</button>
+            </div>
+
+            <div class="lab-field" style="margin-top:16px">
+              <label class="label" for="ctBgHex">Background</label>
+              <div class="lab-colour">
+                <input type="color" id="ctBg" value="#ffffff" aria-label="Background colour" data-cursor="Pick">
+                <input class="lab-input" type="text" id="ctBgHex" value="#ffffff" spellcheck="false" autocomplete="off" aria-label="Background hex">
+              </div>
+            </div>
+
+            <div class="lab-field">
+              <label class="label" for="ctFgHex">Text</label>
+              <div class="lab-colour">
+                <input type="color" id="ctFg" value="#171717" aria-label="Text colour" data-cursor="Pick">
+                <input class="lab-input" type="text" id="ctFgHex" value="#171717" spellcheck="false" autocomplete="off" aria-label="Text hex">
+              </div>
+            </div>
+
+            <div class="lab-btn-row" style="margin-top:16px">
+              <button class="ul-link" id="ctSwap">Swap</button>
+              <button class="ul-link" id="ctFix">Fix to AA</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lab-block">
+          <div class="lab-block-head">
+            <span class="label">Pairing</span>
+            <span class="spacer"></span>
+            <button class="ul-link" id="ctShuffle">Shuffle</button>
+          </div>
+          <div class="lab-block-body">
+            <div class="lab-field">
+              <label class="label" for="ctTitleFont">Title font</label>
+              <input class="lab-input" type="text" id="ctTitleFont" list="ctFontList" spellcheck="false" autocomplete="off" placeholder="Playfair Display">
+            </div>
+            <div class="lab-field">
+              <label class="label" for="ctBodyFont">Text font</label>
+              <input class="lab-input" type="text" id="ctBodyFont" list="ctFontList" spellcheck="false" autocomplete="off" placeholder="Source Sans 3">
+            </div>
+            <datalist id="ctFontList"></datalist>
+          </div>
+        </div>
+
+        <div class="lab-block">
+          <div class="lab-block-head">
+            <span class="label">CSS variables</span>
+            <span class="spacer"></span>
+            <button class="ul-link" id="ctCopy">Copy</button>
+          </div>
+          <div class="ct-code" id="ctCode"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 COMPONENTS ============ -->
+  <section id="toolComponents" data-tool="components" role="tabpanel" aria-label="Component tester" hidden>
+    <div class="lab-work">
+
+      <!-- the shadow host. Nothing inside it is styled by this document. -->
+      <div class="uk-stage-wrap">
+        <div class="uk-stage" id="ukStage"></div>
+        <div class="uk-note" id="ukNote"></div>
+      </div>
+
+      <!-- controls -->
+      <div class="lab-side">
+
+        <div class="lab-block">
+          <div class="lab-block-head">
+            <span class="label">Component</span>
+            <span class="spacer"></span>
+            <span class="label label--soft">05</span>
+          </div>
+          <div class="uk-chips" id="ukChips"></div>
+        </div>
+
+        <div class="lab-block">
+          <div class="lab-block-head">
+            <span class="label">Wearing</span>
+            <span class="spacer"></span>
+            <button class="ul-link" id="ukShuffle">Shuffle</button>
+          </div>
+          <div class="lab-block-body">
+            <p class="label" id="ukPair"></p>
+            <div class="lab-seg" role="group" aria-label="Preview mode" style="margin-top:14px">
+              <button data-uk-mode="light" aria-pressed="true" data-cursor="Light">Light</button>
+              <button data-uk-mode="dark" aria-pressed="false" data-cursor="Dark">Dark</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lab-block">
+          <div class="lab-block-head">
+            <span class="label">Code</span>
+            <span class="spacer"></span>
+            <button class="ul-link" id="ukCopy">Copy</button>
+          </div>
+          <div class="lab-block-body" style="padding-bottom:0">
+            <div class="lab-seg" role="group" aria-label="Code format">
+              <button data-fmt="css" aria-pressed="true" data-cursor="CSS">CSS</button>
+              <button data-fmt="tailwind" aria-pressed="false" data-cursor="Tailwind">Tailwind</button>
+            </div>
+          </div>
+          <div class="ct-code uk-code" id="ukCode"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 BRAND VIBE ============ -->
+  <section id="toolVibe" data-tool="vibe" role="tabpanel" aria-label="Brand vibe generator" hidden>
+    <div class="lab-work">
+
+      <!-- canvas -->
+      <div class="lab-canvas vb-canvas" id="vbCanvas" data-palette>
+        <div class="ct-eyebrow vb-chip" id="vbChip">vibe</div>
+        <h2 class="ct-headline" id="vbTitle">Pick a mood</h2>
+        <p class="ct-deck" id="vbBody">
+          Every mood below ships a pairing and a full light/dark palette, checked against
+          WCAG before it ever reaches you.
+        </p>
+        <div class="ct-ui-row">
+          <span class="vb-btn" id="vbBtn">Primary action</span>
+          <span class="ct-chip">Secondary</span>
+        </div>
+        <div class="vb-rule"></div>
+        <div class="vb-swatches" id="vbSwatches"></div>
+      </div>
+
+      <!-- controls -->
+      <div class="lab-side">
+
+        <div class="lab-block">
+          <div class="lab-block-head">
+            <span class="label" id="vbName">No mood selected</span>
+            <span class="spacer"></span>
+            <button class="ul-link" id="vbSave">Save palette</button>
+          </div>
+          <div class="lab-block-body">
+            <p class="label label--soft" id="vbBlurb" style="line-height:1.6"></p>
+            <p class="label" id="vbPairName" style="margin-top:10px"></p>
+
+            <div class="lab-seg" role="group" aria-label="Preview mode" style="margin-top:14px">
+              <button data-vb-mode="light" aria-pressed="true" data-cursor="Light">Light</button>
+              <button data-vb-mode="dark" aria-pressed="false" data-cursor="Dark">Dark</button>
+            </div>
+
+            <div class="lab-btn-row" style="margin-top:14px">
+              <button class="ul-link" id="vbNextPair">Next pair</button>
+              <button class="ul-link" id="vbSurprise">Surprise me</button>
+              <button class="ul-link" id="vbCheck">Check contrast &rarr;</button>
+            </div>
+          </div>
+          <div id="vbScore" class="vb-score"></div>
+        </div>
+
+        <div class="lab-block">
+          <div class="lab-block-head">
+            <span class="label">Moods</span>
+            <span class="spacer"></span>
+            <span class="label label--soft">12</span>
+          </div>
+          <div class="vb-tags" id="vbTags"></div>
+        </div>
+
+        <div class="lab-block">
+          <div class="lab-block-head">
+            <span class="label">CSS variables</span>
+            <span class="spacer"></span>
+            <button class="ul-link" id="vbCopy">Copy</button>
+          </div>
+          <div class="ct-code" id="vbCode"></div>
+        </div>
+
+        <div class="lab-block">
+          <div class="lab-block-head">
+            <span class="label">Saved palettes</span>
+          </div>
+          <div id="vbSaved"></div>
+          <div class="lab-block-body" id="vbSavedEmpty">
+            <span class="label label--soft">Nothing saved yet.</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 VARIABLE ============ -->
+  <section id="toolVariable" data-tool="variable" role="tabpanel" aria-label="Variable font playground" hidden>
+    <div class="lab-work">
+
+      <div class="vf-stage-wrap">
+        <div class="lab-canvas vf-canvas" id="vfCanvas">
+          <div class="vf-sample fnt" id="vfSample" contenteditable="true" spellcheck="false" data-cursor="Edit">Handgloves</div>
+        </div>
+        <div class="vf-size-row">
+          <label class="label label--soft" for="vfSize">Size</label>
+          <input id="vfSize" type="range" min="24" max="220" value="92" aria-label="Preview size">
+          <span class="label label--soft" id="vfSizeVal">92px</span>
+          <span class="spacer"></span>
+          <button class="ul-link" id="vfUseAsTitle">Use as title font</button>
+        </div>
+      </div>
+
+      <div class="lab-side">
+
+        <div class="lab-block">
+          <div class="lab-block-head">
+            <span class="label" id="vfName">Roboto Flex</span>
+            <span class="spacer"></span>
+            <span class="label label--soft" id="vfAxisCount"></span>
+          </div>
+          <div class="lab-block-body">
+            <div class="lab-field">
+              <label class="label" for="vfFamily">Variable family</label>
+              <div class="select-wrap" style="width:100%">
+                <select class="select lab-input" id="vfFamily" style="width:100%;text-transform:none"></select>
+              </div>
+            </div>
+            <div class="lab-btn-row" style="margin-top:14px">
+              <button class="ul-link" id="vfRandom">Randomise</button>
+              <button class="ul-link" id="vfReset">Reset axes</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lab-block">
+          <div class="lab-block-head">
+            <span class="label">Axes</span>
+            <span class="spacer"></span>
+            <span class="label label--soft">live</span>
+          </div>
+          <div class="vf-sliders" id="vfSliders"></div>
+        </div>
+
+        <div class="lab-block">
+          <div class="lab-block-head">
+            <span class="label">CSS</span>
+            <span class="spacer"></span>
+            <button class="ul-link" id="vfCopy">Copy</button>
+          </div>
+          <div class="ct-code" id="vfCode"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-mark spacer">Layz</div>
+    <div class="footer-col">
+      <h4 class="label label--soft">Explore</h4>
+      <ul>
+        <li><a class="ul-link" href="fonts.html">All fonts</a></li>
+        <li><a class="ul-link" href="pairings.html">Pairings</a></li>
+        <li><a class="ul-link" href="lab.html">Lab</a></li>
+        <li><a class="ul-link" href="fonts.html?category=serif">Serif</a></li>
+        <li><a class="ul-link" href="saved.html">Saved</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 class="label label--soft">Legal</h4>
+      <ul>
+        <li><a class="ul-link" href="privacy.html">Privacy Policy</a></li>
+        <li><a class="ul-link" href="cookies.html">Cookies &amp; storage</a></li>
+        <li><a class="ul-link" href="terms.html">Terms &amp; Conditions</a></li>
+        <li><a class="ul-link" href="legal.html">Legal Notice</a></li>
+        <li><button class="ul-link" data-consent-open>Privacy choices</button></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 class="label label--soft">Elsewhere</h4>
+      <ul>
+        <li><a class="ul-link" href="https://fonts.google.com" target="_blank" rel="noopener">Google Fonts</a></li>
+        <li><a class="ul-link" href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank" rel="noopener">WCAG 2.1 quick ref</a></li>
+        <li><a class="ul-link" href="https://ko-fi.com/layzfonts" target="_blank" rel="noopener">Support on Ko-fi</a></li>
+        <li><a class="ul-link" href="https://blckt.hu" target="_blank" rel="noopener">blckt.&trade;</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="label label--soft">&copy; <span data-year>2026</span> Layz &mdash; Typefaces served by Google Fonts</span>
+    <span class="label label--soft">Made by <a class="ul-link credit" href="https://blckt.hu" target="_blank" rel="noopener" data-cursor="blckt.hu">blckt.&trade;</a></span>
+  </div>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://layzfonts.com/lab.html#app",
+      "url": "https://layzfonts.com/lab.html",
+      "name": "Layz type lab",
+      "applicationCategory": "DesignApplication",
+      "operatingSystem": "Any",
+      "description": "A browser workbench for typography: WCAG 2.1 contrast checking, live UI component previews, brand-mood palette generation, and a variable-font axis playground, each with copyable CSS.",
+      "inLanguage": "en",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "isPartOf": { "@id": "https://layzfonts.com/#website" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Layz", "item": "https://layzfonts.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Type lab", "item": "https://layzfonts.com/lab.html" }
+      ]
+    }
+  ]
+}
+</script>
+<script src="js/fonts-data.js"></script>
+<script src="js/font-loader.js"></script>
+<script src="js/pairing-engine.js"></script>
+<script src="js/app.js"></script>
+<script src="js/lab-core.js"></script>
+<script src="js/lab-vibe-data.js"></script>
+<script src="js/lab-variable-data.js"></script>
+<script src="js/lab-contrast.js"></script>
+<script src="js/lab-components.js"></script>
+<script src="js/lab-vibe.js"></script>
+<script src="js/lab-variable.js"></script>
+</body>
+</html>

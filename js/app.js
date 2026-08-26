@@ -19,6 +19,25 @@
     return value;
   }
 
+  /* ---------------- scroll lock ----------------
+     Three separate things can freeze the page: the mobile menu, the intro,
+     and any overlay panel. Each used to write body.style.overflow directly
+     and clear it to '' on the way out, so whichever closed LAST unlocked the
+     page even while another holder was still open. Count the holders and
+     only release on the last one. */
+  var scrollLocks = 0;
+
+  function lockScroll() {
+    scrollLocks++;
+    doc.body.style.overflow = 'hidden';
+  }
+
+  function unlockScroll() {
+    if (scrollLocks === 0) { return; }
+    scrollLocks--;
+    if (scrollLocks === 0) { doc.body.style.overflow = ''; }
+  }
+
   /* ---------------- theme ---------------- */
   var THEME_KEY = 'layz.theme';
 
@@ -158,12 +177,15 @@
       burger.addEventListener('click', function () {
         var open = header.classList.toggle('is-open');
         burger.setAttribute('aria-expanded', String(open));
-        doc.body.style.overflow = open ? 'hidden' : '';
+        if (open) { lockScroll(); } else { unlockScroll(); }
       });
       header.querySelectorAll('.nav a').forEach(function (a) {
         a.addEventListener('click', function () {
+          /* On desktop the menu is never open, so without this guard every
+             nav click would release a lock it never took. */
+          if (!header.classList.contains('is-open')) { return; }
           header.classList.remove('is-open');
-          doc.body.style.overflow = '';
+          unlockScroll();
           burger.setAttribute('aria-expanded', 'false');
         });
       });
@@ -237,7 +259,7 @@
     }
     try { sessionStorage.setItem('layz.intro', '1'); } catch (e) {}
 
-    doc.body.style.overflow = 'hidden';
+    lockScroll();
     requestAnimationFrame(function () { intro.classList.add('is-filling'); });
 
     var counter = intro.querySelector('.intro-count');
@@ -250,7 +272,7 @@
 
     setTimeout(function () {
       intro.classList.add('is-done');
-      doc.body.style.overflow = '';
+      unlockScroll();
       setTimeout(function () {
         if (intro.parentNode) { intro.parentNode.removeChild(intro); }
       }, 600);
@@ -320,9 +342,21 @@
   /* ---------------- saved collection ---------------- */
   var SAVE_KEY = 'layz.saved.v1';
 
+  /* A blob written by an earlier version only carries the keys that existed
+     then. Normalising on read lets a new collection be added later without
+     every consumer having to guard against an undefined array - reading
+     .palettes.length on a pre-existing shortlist would otherwise throw. */
+  function normalizeSaved(d) {
+    if (!d || typeof d !== 'object') { d = {}; }
+    if (!Array.isArray(d.fonts)) { d.fonts = []; }
+    if (!Array.isArray(d.pairs)) { d.pairs = []; }
+    if (!Array.isArray(d.palettes)) { d.palettes = []; }
+    return d;
+  }
+
   function readSaved() {
-    try { return JSON.parse(store(SAVE_KEY) || '{"fonts":[],"pairs":[]}'); }
-    catch (e) { return { fonts: [], pairs: [] }; }
+    try { return normalizeSaved(JSON.parse(store(SAVE_KEY) || '{}')); }
+    catch (e) { return normalizeSaved(null); }
   }
   function writeSaved(data) {
     store(SAVE_KEY, JSON.stringify(data));
@@ -358,6 +392,34 @@
       var key = saved.pairKey(p);
       d.pairs = d.pairs.filter(function (x) { return saved.pairKey(x) !== key; });
       writeSaved(d);
+    },
+
+    /* Palettes from the lab. Keyed on the whole recipe rather than the mood
+       name, so two variants of the same mood are two separate saves. */
+    paletteKey: function (p) {
+      return [p.mood, p.title, p.body,
+        p.light.bg, p.light.fg, p.light.accent,
+        p.dark.bg, p.dark.fg, p.dark.accent].join('|');
+    },
+    palettes: function () { return readSaved().palettes; },
+    hasPalette: function (p) {
+      var key = saved.paletteKey(p);
+      return readSaved().palettes.some(function (x) { return saved.paletteKey(x) === key; });
+    },
+    togglePalette: function (p) {
+      var d = readSaved();
+      var key = saved.paletteKey(p);
+      var i = -1;
+      d.palettes.forEach(function (x, idx) { if (saved.paletteKey(x) === key) { i = idx; } });
+      if (i === -1) { d.palettes.unshift(p); } else { d.palettes.splice(i, 1); }
+      writeSaved(d);
+      return i === -1;
+    },
+    removePalette: function (p) {
+      var d = readSaved();
+      var key = saved.paletteKey(p);
+      d.palettes = d.palettes.filter(function (x) { return saved.paletteKey(x) !== key; });
+      writeSaved(d);
     }
   };
 
@@ -372,6 +434,26 @@
   }
 
   function param(name) { return new URLSearchParams(location.search).get(name); }
+
+  /* Merge keys into the current query string instead of rebuilding it, so
+     one feature writing its own state cannot wipe the params another feature
+     owns. A null / undefined / '' value deletes the key.
+     file:// documents have a null origin and reject history writes, so the
+     whole thing is a no-op when the site is opened from disk. */
+  function setParams(updates, opts) {
+    var qs = new URLSearchParams(location.search);
+    Object.keys(updates).forEach(function (k) {
+      var v = updates[k];
+      if (v === null || v === undefined || v === '') { qs.delete(k); }
+      else { qs.set(k, v); }
+    });
+    var str = qs.toString();
+    var url = location.pathname + (str ? '?' + str : '') + location.hash;
+    try {
+      if (opts && opts.push) { history.pushState(null, '', url); }
+      else { history.replaceState(null, '', url); }
+    } catch (e) { /* running from disk - skip */ }
+  }
 
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
@@ -418,10 +500,13 @@
     saved: saved,
     debounce: debounce,
     param: param,
+    setParams: setParams,
     escapeHtml: escapeHtml,
     pad: pad,
     countUp: countUp,
     initReveal: initReveal,
+    lockScroll: lockScroll,
+    unlockScroll: unlockScroll,
     reduceMotion: reduceMotion
   };
 })(window);

@@ -93,12 +93,10 @@
       });
     }
 
-    /* keep the URL shareable without adding history entries
-       (file:// documents have a null origin and reject replaceState) */
-    try {
-      history.replaceState(null, '', location.pathname + '?title=' +
-        encodeURIComponent(pair.title.name) + '&body=' + encodeURIComponent(pair.body.name));
-    } catch (e) { /* running from disk - skip */ }
+    /* Keep the URL shareable without adding history entries. This MERGES the
+       two keys it owns rather than rebuilding the query string, so params
+       belonging to other features survive a shuffle. */
+    L.setParams({ title: pair.title.name, body: pair.body.name });
   }
 
   function updateCode(pair) {

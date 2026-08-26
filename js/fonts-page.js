@@ -410,15 +410,19 @@
 
     syncDetailSave();
 
+    /* Re-opening while already open would take a second lock it never
+       releases, leaving the page frozen after the panel closes. */
+    var wasOpen = overlay.classList.contains('is-open');
     overlay.classList.add('is-open');
     overlay.scrollTop = 0;
-    document.body.style.overflow = 'hidden';
+    if (!wasOpen) { L.lockScroll(); }
     $('detailClose').focus();
   }
 
   function closeDetail() {
+    if (!overlay.classList.contains('is-open')) { return; }
     overlay.classList.remove('is-open');
-    document.body.style.overflow = '';
+    L.unlockScroll();
     detailFont = null;
     if (lastFocus && lastFocus.focus) { lastFocus.focus(); }
   }

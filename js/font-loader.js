@@ -38,20 +38,46 @@
   var sweepTimer = null;
   var stats = { requests: 0, families: 0, evicted: 0 };
 
-  /* A queue entry is "Family" or "Family|400;700" - the weight axis is only
-     asked for where it is actually rendered (headline previews), so the
-     library grid never pays for glyphs it will not draw. */
+  /* A queue entry is one of:
+       "Family"                              default (400) instance only
+       "Family|400;700"                      a weight list
+       "Family@@opsz,wght@14..32,100..900"   a ready-made css2 axis tuple
+     The third form exists because the weight-list form structurally cannot
+     express a multi-axis variable request. */
   function split(entry) {
+    var v = entry.indexOf('@@');
+    if (v !== -1) {
+      return { name: entry.slice(0, v), weights: null, axes: entry.slice(v + 2) };
+    }
     var i = entry.indexOf('|');
     return i === -1
-      ? { name: entry, weights: null }
-      : { name: entry.slice(0, i), weights: entry.slice(i + 1) };
+      ? { name: entry, weights: null, axes: null }
+      : { name: entry.slice(0, i), weights: entry.slice(i + 1), axes: null };
   }
 
   function encodeFamily(entry) {
     var e = split(entry);
-    return 'family=' + e.name.trim().replace(/\s+/g, '+') +
-      (e.weights ? ':wght@' + e.weights : '');
+    var fam = 'family=' + e.name.trim().replace(/\s+/g, '+');
+    if (e.axes) { return fam + ':' + e.axes; }
+    return fam + (e.weights ? ':wght@' + e.weights : '');
+  }
+
+  /* css2 rejects the whole request if an axis does not exist on the family or
+     a value falls outside its real range, so the ranges handed in here have to
+     come from real metadata rather than a guess. Tag order is NOT enforced by
+     the endpoint, but sorting lowercase-then-uppercase matches the documented
+     form and keeps the dedupe key stable for a given set of axes. */
+  function axisSpec(axes) {
+    var lower = [], upper = [];
+    for (var i = 0; i < axes.length; i++) {
+      (axes[i].tag === axes[i].tag.toLowerCase() ? lower : upper).push(axes[i]);
+    }
+    var cmp = function (x, y) { return x.tag < y.tag ? -1 : x.tag > y.tag ? 1 : 0; };
+    lower.sort(cmp);
+    upper.sort(cmp);
+    var ord = lower.concat(upper);
+    return ord.map(function (a) { return a.tag; }).join(',') + '@' +
+           ord.map(function (a) { return a.min + '..' + a.max; }).join(',');
   }
 
   function notify(name) {
@@ -107,10 +133,10 @@
         entries.forEach(function (e) { ship([e], true); });
         return;
       }
-      /* A single family still failing - try once more without the weight
-         axis, then give up and let the fallback stack render. */
+      /* A single family still failing - try once more without any axis
+         request at all, then give up and let the fallback stack render. */
       var e = split(entries[0]);
-      if (e.weights) { ship([e.name], true); }
+      if (e.weights || e.axes) { ship([e.name], true); }
       else { watchFace(e.name); }
     };
 
@@ -198,11 +224,17 @@
     if (!names || !names.length) { return; }
     var priority = !!(opts && opts.priority);
     var weights = (opts && opts.weights) || null;
+    /* opts.axes is an array of { tag, min, max } - a variable request. It is
+       encoded into the entry so retained/settled stay keyed on the plain
+       family name and eviction keeps working. */
+    var axes = (opts && opts.axes && opts.axes.length) ? axisSpec(opts.axes) : null;
     var added = false;
     for (var i = 0; i < names.length; i++) {
       if (!names[i]) { continue; }
       retained[names[i]] = true;
-      var entry = weights ? names[i] + '|' + weights : names[i];
+      var entry = axes ? names[i] + '@@' + axes
+        : weights ? names[i] + '|' + weights
+        : names[i];
       if (requested[entry]) { continue; }
       requested[entry] = true;
       (priority ? priorityQueue : queue).push(entry);
@@ -219,9 +251,12 @@
     scheduleSweep();
   }
 
-  /* Promise that resolves once the family's glyphs are usable. */
-  function ready(name) {
-    load(name, { priority: true });
+  /* Promise that resolves once the family's glyphs are usable.
+     `opts` is passed straight through to load(), so a variable request can be
+     awaited without also triggering a second, static request for the same
+     family. */
+  function ready(name, opts) {
+    load(name, opts || { priority: true });
     if (settled[name]) { return Promise.resolve(name); }
     return new Promise(function (resolve) {
       (waiters[name] = waiters[name] || []).push(resolve);
@@ -276,6 +311,7 @@
     ready: ready,
     isReady: isReady,
     observer: observer,
+    axisSpec: axisSpec,
     stats: function () {
       return {
         requests: stats.requests,

@@ -215,6 +215,7 @@
     curatedPairs: curatedPairs,
     cssFor: cssFor,
     linkFor: linkFor,
+    embedUrl: embedUrl,
     headingWeight: headingWeight,
     superfamilyOf: superfamilyOf,
     TITLE_POOL: TITLE_POOL,
